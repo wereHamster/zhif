@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "@babel/core": "^7.4.5",
+    "@types/react": "^16.8.19",
+    "@zeit/next-typescript": "^1.1.1",
+    "babel-plugin-macros": "^2.5.1",
+    "deasync": "^0.1.15",
+    "mkdirp": "^0.5.1",
+    "next": "^8.1.0",
+    "null-loader": "^2.0.0",
+    "pkg-dir": "^4.2.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "sharp": "^0.22.1",
+    "typescript": "^3.4.5"
+  }
+}
