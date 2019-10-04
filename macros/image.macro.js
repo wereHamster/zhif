@@ -137,9 +137,16 @@ module.exports = createMacro(({ references, babel }) => {
 
   if (references.Picture) {
     references.Picture.forEach(referencePath => {
-      const src = referencePath.parent.attributes.find(attr => {
-        return attr.name.type === "JSXIdentifier" && attr.name.name === "src";
-      }).value.value;
+      const attrs = referencePath.parent.attributes;
+
+      /*
+       * The 'src' attribute is required, it must be present. All other attributes are passed
+       * down to the <img> element.
+       */
+      const isSrcAttr = ({ name }) =>
+        name.type === "JSXIdentifier" && name.name === "src";
+      const src = attrs.find(isSrcAttr).value.value;
+      const otherAttributes = attrs.filter(attr => !isSrcAttr(attr));
 
       const { value } = toValue(referencePath, src);
 
@@ -170,7 +177,8 @@ module.exports = createMacro(({ references, babel }) => {
                 t.jsxAttribute(
                   t.jsxIdentifier("src"),
                   t.stringLiteral(value.img.src)
-                )
+                ),
+                ...otherAttributes
               ]),
               null,
               [],

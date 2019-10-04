@@ -11,7 +11,7 @@ console.log(image1);
 export default () => (
   <div>
     <div>
-      <Picture src="../assets/image.jpg" />
+      <Picture src="../assets/image.jpg" alt="Flower" />
       <Picture src="../assets/image.png" />
       {/* <SomePicture {...picture1} /> */}
       {/* <SomePicture {...picture("../image.png")} /> */}
