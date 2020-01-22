@@ -7,7 +7,7 @@
     "next": "^9.2.0",
     "null-loader": "^3.0.0",
     "pkg-dir": "^4.2.0",
-    "react": "^16.10.2",
+    "react": "^16.12.0",
     "react-dom": "^16.10.2",
     "sharp": "^0.23.1",
     "typescript": "^3.7.5"
