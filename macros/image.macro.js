@@ -22,6 +22,25 @@ const publicPath = "/static/images";
 const outputDirectory = pkgDir.sync();
 const cacheDirectory = `${outputDirectory}/node_modules/.cache/images/`;
 
+/*
+ * This small inline module exists for the sole reason so that we can get the image
+ * metadata inside synchronous code.
+ *
+ * The code running in a babel macro must be synchronous (no async code). But
+ * the sharp function to get the image metadata is async. There is a 'deasync'
+ * node module which one can use to convert async code to sync code, but its
+ * use is discouraged.
+ *
+ * We solve this problem by running the following code in a synchronous subprocess
+ * (child_process execFileSync). The code loads the metadata from the image and
+ * prints it to stdout, where we can read it from.
+ */
+const metadataScrubber = path => `
+require("sharp")("${path}").metadata().then(metadata => {
+  process.stdout.write(JSON.stringify(metadata));
+});
+`;
+
 module.exports = createMacro(({ references, babel }) => {
   const t = babel.types;
 
@@ -53,7 +72,9 @@ module.exports = createMacro(({ references, babel }) => {
     /*
      * Synchronously get the metadata. See the './metadata.js' file for details.
      */
-    const metadata = JSON.parse(execFileSync(process.execPath, [require.resolve("./metadata"), path]))
+    const metadata = JSON.parse(
+      execFileSync(process.execPath, ["-e", metadataScrubber(path)])
+    );
 
     /*
      * The fallback for browsers which don't support the <picture> element.
