@@ -3,6 +3,7 @@ const fs = require("fs");
 const crypto = require("crypto");
 const { performance } = require("perf_hooks");
 const { cpus } = require("os");
+const { execFileSync } = require("child_process");
 
 /*
  * Third-party dependencies
@@ -10,7 +11,6 @@ const { cpus } = require("os");
 const { parse } = require("@babel/parser");
 const sharp = require("sharp");
 const { createMacro } = require("babel-plugin-macros");
-const { runLoopOnce } = require("deasync");
 const pkgDir = require("pkg-dir");
 const mkdirp = require("mkdirp");
 
@@ -51,19 +51,9 @@ module.exports = createMacro(({ references, babel }) => {
     const image = sharp(path);
 
     /*
-     * Synchronously get the metadata. We use the 'deasync' npm package
-     * to turn the image metadata promise into synchronous code.
+     * Synchronously get the metadata. See the './metadata.js' file for details.
      */
-    const metadata = (() => {
-      let ret = undefined;
-      image.metadata().then(m => (ret = m));
-      while (!ret) {
-        runLoopOnce();
-      }
-      return ret;
-    })();
-
-    const { hasAlpha } = metadata;
+    const metadata = JSON.parse(execFileSync(process.execPath, [require.resolve("./metadata"), path]))
 
     /*
      * The fallback for browsers which don't support the <picture> element.
@@ -80,7 +70,7 @@ module.exports = createMacro(({ references, babel }) => {
         name: `${name}`,
         image: image.clone(),
         hash,
-        ext: hasAlpha ? ".png" : ".jpg",
+        ext: metadata.hasAlpha ? ".png" : ".jpg",
         options: {}
       })
     };
@@ -99,7 +89,7 @@ module.exports = createMacro(({ references, babel }) => {
     const sources = (() => {
       const variants = [
         { type: "image/webp", ext: ".webp" },
-        hasAlpha
+        metadata.hasAlpha
           ? { type: "image/png", ext: ".png" }
           : { type: "image/jpeg", ext: ".jpg" }
       ];

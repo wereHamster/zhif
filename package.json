@@ -4,7 +4,6 @@
     "@types/react": "^16.9.5",
     "@zeit/next-typescript": "^1.1.1",
     "babel-plugin-macros": "^2.6.1",
-    "deasync": "^0.1.15",
     "mkdirp": "^0.5.1",
     "next": "^8.1.0",
     "null-loader": "^3.0.0",
