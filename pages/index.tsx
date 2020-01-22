@@ -1,5 +1,5 @@
 import * as React from "react";
-import { importImage, Picture } from "../macros/image.macro";
+import { importImage, Picture } from "../src/macro";
 
 const image1 = importImage("../assets/image.jpg", {});
 console.log(image1);
