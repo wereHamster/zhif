@@ -50,7 +50,7 @@ module.exports = createMacro(({ references, babel }) => {
      * get the filename (without the extension).
      */
     const { path, name } = (() => {
-      const { sourceFileName } = referencePath.hub.file.opts;
+      const { sourceFileName } = referencePath.hub.file.opts.parserOpts;
       return {
         path: join(dirname(sourceFileName), sourceImage),
         name: basename(sourceImage, extname(sourceImage))
@@ -168,29 +168,37 @@ module.exports = createMacro(({ references, babel }) => {
           [
             ...value.sources.map(source => {
               return t.jsxElement(
-                t.jsxOpeningElement(t.jsxIdentifier("source"), [
-                  t.jsxAttribute(
-                    t.jsxIdentifier("srcSet"),
-                    t.stringLiteral(source.srcSet)
-                  ),
-                  t.jsxAttribute(
-                    t.jsxIdentifier("type"),
-                    t.stringLiteral(source.type)
-                  )
-                ]),
+                t.jsxOpeningElement(
+                  t.jsxIdentifier("source"),
+                  [
+                    t.jsxAttribute(
+                      t.jsxIdentifier("srcSet"),
+                      t.stringLiteral(source.srcSet)
+                    ),
+                    t.jsxAttribute(
+                      t.jsxIdentifier("type"),
+                      t.stringLiteral(source.type)
+                    )
+                  ],
+                  true
+                ),
                 null,
                 [],
                 true
               );
             }),
             t.jsxElement(
-              t.jsxOpeningElement(t.jsxIdentifier("img"), [
-                t.jsxAttribute(
-                  t.jsxIdentifier("src"),
-                  t.stringLiteral(value.img.src)
-                ),
-                ...otherAttributes
-              ]),
+              t.jsxOpeningElement(
+                t.jsxIdentifier("img"),
+                [
+                  t.jsxAttribute(
+                    t.jsxIdentifier("src"),
+                    t.stringLiteral(value.img.src)
+                  ),
+                  ...otherAttributes
+                ],
+                true
+              ),
               null,
               [],
               true
@@ -268,6 +276,10 @@ const queue = (() => {
 })();
 
 const generateImage = ({ name, image, hash, options = {}, ext }) => {
+  if (process.env.NODE_ENV === "test") {
+    return `${publicPath}/${name}-FINGERPRINT${ext}`;
+  }
+
   const fp = fingerprint(hash, JSON.stringify(options), ext);
   const filename = `${name}-${fp}${ext}`;
   const path = `${publicPath}/${filename}`;
