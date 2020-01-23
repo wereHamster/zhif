@@ -23,15 +23,14 @@ Caveats:
 The code is not yet available as a package on NPM. But it's just one file, so just copy it into your project and be done.
 
  1. [Enable babel macros in your project](https://github.com/kentcdodds/babel-plugin-macros/blob/master/other/docs/user.md)
- 2. Install third-party dependencies: `npm install --save-dev @babel/parser sharp deasync pkg-dir mkdirp`
- 3. Copy the `image.macro.js` file into your project
+ 2. Install the zhif macro and its peer dependencies: `npm install --save-dev @zhif/macro sharp`
 
 # Example
 
 You write:
 
 ```
-import { Picture } from "…/image.macro"
+import { Picture } from "@zhif/macro"
 <Picture src="./path/to/image.png" />
 ```
 
@@ -58,7 +57,7 @@ A couple things to note here:
 Use this to replace your `<img>` elements. This is the most basic API.
 
 ```
-import { Picture } from "…/image.macro"
+import { Picture } from "@zhif/macro"
 <Picture src="./path/to/image.png" />
 ```
 
@@ -67,7 +66,7 @@ import { Picture } from "…/image.macro"
 This performs essentially the same operations as `<Picture>`, but instead of replacing your code with the `<picture>` element, it'll return a JavaScript object which contains all the information that you can use in your own component.
 
 ```
-import { importImage } from "…/image.macro"
+import { importImage } from "@zhif/macro"
 const meta = importImage("./path/to/image.png")
 ```
 
@@ -84,4 +83,4 @@ const meta = importImage("./path/to/image.png")
 
 # TODO
 
- - [ ] Publish as package on NPM
+ - [x] Publish as package on NPM
