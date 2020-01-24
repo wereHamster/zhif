@@ -5,8 +5,5 @@
     "@babel/parser": "^7.6.2",
     "babel-plugin-macros": "^2.8.0",
     "sharp": "^0.23.1"
-  },
-  "dependencies": {
-    "babel-plugin-tester": "^8.0.1"
   }
 }
