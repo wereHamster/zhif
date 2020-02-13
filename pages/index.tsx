@@ -1,7 +1,7 @@
 import * as React from "react";
 import { importImage, Picture } from "../src/macro";
 
-const image1 = importImage("../assets/image.jpg", {});
+const image1 = importImage("../assets/image.jpg");
 console.log(image1);
 
 // const picture3 = picture("../image.jpg", {
