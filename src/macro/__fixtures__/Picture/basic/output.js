@@ -8,6 +8,6 @@ export default () => (
       srcSet="/static/images/jpeg-1w-FINGERPRINT.jpg 1w"
       type="image/jpeg"
     />
-    <img src="/static/images/jpeg-FINGERPRINT.jpg" />
+    <img src="/static/images/jpeg-FINGERPRINT.jpg" width={1} height={1} />
   </picture>
 );

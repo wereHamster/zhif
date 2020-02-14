@@ -195,6 +195,18 @@ module.exports = createMacro(({ references, babel }) => {
                     t.jsxIdentifier("src"),
                     t.stringLiteral(value.img.src)
                   ),
+                  t.jsxAttribute(
+                    t.jsxIdentifier("width"),
+                    t.jsxExpressionContainer(
+                      t.numericLiteral(value.metadata.width)
+                    )
+                  ),
+                  t.jsxAttribute(
+                    t.jsxIdentifier("height"),
+                    t.jsxExpressionContainer(
+                      t.numericLiteral(value.metadata.height)
+                    )
+                  ),
                   ...otherAttributes
                 ],
                 true
