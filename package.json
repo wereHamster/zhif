@@ -13,7 +13,7 @@
     "next": "^9.2.2",
     "null-loader": "^3.0.0",
     "pkg-dir": "^4.2.0",
-    "react": "^16.12.0",
+    "react": "^16.13.0",
     "react-dom": "^16.12.0",
     "rollup": "^1.31.1",
     "rollup-plugin-copy": "^3.3.0",
