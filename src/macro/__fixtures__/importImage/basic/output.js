@@ -7,15 +7,15 @@ const {} = (() => {
       height: 1
     },
     img: {
-      src: "/static/images/jpeg-FINGERPRINT.jpg"
+      src: "/images/jpeg-FINGERPRINT.jpg"
     },
     sources: [
       {
-        srcSet: "/static/images/jpeg-1w-FINGERPRINT.webp 1w",
+        srcSet: "/images/jpeg-1w-FINGERPRINT.webp 1w",
         type: "image/webp"
       },
       {
-        srcSet: "/static/images/jpeg-1w-FINGERPRINT.jpg 1w",
+        srcSet: "/images/jpeg-1w-FINGERPRINT.jpg 1w",
         type: "image/jpeg"
       }
     ]

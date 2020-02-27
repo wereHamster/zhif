@@ -18,7 +18,7 @@ const mkdirp = require("mkdirp");
  * Configuration
  */
 
-const publicPath = "/static/images";
+const publicPath = "/images";
 const outputDirectory = pkgDir.sync();
 const cacheDirectory = `${outputDirectory}/node_modules/.cache/images/`;
 
@@ -299,18 +299,18 @@ const generateImage = ({ name, image, hash, options = {}, ext }) => {
   queue(async () => {
     const t0 = performance.now();
     const cachePath = join(cacheDirectory, filename);
-    mkdirp.sync(join(outputDirectory, publicPath));
+    mkdirp.sync(join(outputDirectory, "public", publicPath));
 
     try {
-      await fs.promises.stat(`${outputDirectory}${path}`);
+      await fs.promises.stat(join(outputDirectory, "public", path));
     } catch (e) {
       try {
         await fs.promises.stat(cachePath);
-        await fs.promises.copyFile(cachePath, `${outputDirectory}${path}`);
+        await fs.promises.copyFile(cachePath, join(outputDirectory, "public", path));
       } catch (e) {
-        await image.toFile(`${outputDirectory}${path}`);
+        await image.toFile(join(outputDirectory, "public", path));
         mkdirp.sync(cacheDirectory);
-        await fs.promises.copyFile(`${outputDirectory}${path}`, cachePath);
+        await fs.promises.copyFile(join(outputDirectory, "public", path), cachePath);
       }
     }
 

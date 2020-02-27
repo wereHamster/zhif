@@ -40,14 +40,14 @@ Out comes:
 <picture>
   <source type="image/webp" srcset="… 400w, … 1000w, … 2500w" />
   <source type="image/jpeg" srcset="… 400w, … 1000w, … 2500w" />
-  <img src="/static/images/image-1Q6k60sqKfhYq0FQkd8Fq4Wn99lzUxLQ.png" />
+  <img src="/images/image-1Q6k60sqKfhYq0FQkd8Fq4Wn99lzUxLQ.png" />
 </picture>
 ```
 
 A couple things to note here:
 
  - The macro **replaces** the `<Picture>` component with the HTML `<picture>` element. No React component is used at runtime, it's as if you wrote the `<picture>…</picture>` code yourself.
- - The macro **converts** and **resizes** the image to generate multiple formats and sizes. It'll pick the appropriate next-gen image formats, use reasonable defaults for image widths. The generated images are placed into the `/static/images/…` folder.
+ - The macro **converts** and **resizes** the image to generate multiple formats and sizes. It'll pick the appropriate next-gen image formats, use reasonable defaults for image widths. The generated images are placed into the `./public/images/…` folder.
  - This transformation happens enterily in Babel, no additional configuration (eg. webpack loaders) is required.
 
 # API
@@ -73,7 +73,7 @@ const meta = importImage("./path/to/image.png")
 ```
 {
   metadata: { width: 4368, height: 2912 },
-  img: { src: '/static/images/image-xx.jpg' },
+  img: { src: '/images/image-xx.jpg' },
   sources: [
      { srcSet: '…', type: 'image/webp' },
      { srcSet: '…', type: 'image/jpeg' }

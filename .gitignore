@@ -1,6 +1,6 @@
 node_modules
 .next
-static/images/
+public/images/
 
 packages/macro/index.js
 packages/macro/index.d.ts
