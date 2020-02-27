@@ -1,6 +1,6 @@
 {
   "name": "@zhif/macro",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "peerDependencies": {
     "@babel/parser": "^7.6.2",
     "babel-plugin-macros": "^2.8.0",
