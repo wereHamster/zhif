@@ -2,6 +2,7 @@
 <div align="center">
   <h1>zhif</h1>
   <p>Babel macros and React components for dealing with images in a React application</p>
+  <img src="./assets/teaser.png" />
 </div>
 
 # Goal
