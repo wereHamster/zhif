@@ -8,7 +8,7 @@
     "babel-plugin-macros": "^2.8.0",
     "babel-plugin-tester": "^8.0.1",
     "builtin-modules": "^3.1.0",
-    "jest": "^25.2.4",
+    "jest": "^25.2.7",
     "mkdirp": "^1.0.3",
     "next": "^9.3.1",
     "null-loader": "^3.0.0",
