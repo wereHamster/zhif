@@ -2,7 +2,7 @@ const { join, dirname, basename, extname } = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
 const { performance } = require("perf_hooks");
-const { cpus } = require("os");
+const { cpus, tmpdir } = require("os");
 const { execFileSync } = require("child_process");
 
 /*
@@ -41,6 +41,13 @@ require("sharp")("${path}").metadata().then(metadata => {
 });
 `;
 
+const sourceImageFetcher = (url, path) => `
+const { get } = require("https");
+const { createWriteStream } = require("fs");
+
+get("${url}", res => { res.pipe(createWriteStream("${path}")); })
+`
+
 module.exports = createMacro(({ references, babel }) => {
   const t = babel.types;
 
@@ -50,11 +57,17 @@ module.exports = createMacro(({ references, babel }) => {
      * get the filename (without the extension).
      */
     const { path, name } = (() => {
-      const { sourceFileName } = referencePath.hub.file.opts.parserOpts;
-      return {
-        path: join(dirname(sourceFileName), sourceImage),
-        name: basename(sourceImage, extname(sourceImage))
-      };
+      const ext = extname(sourceImage);
+      const name = basename(sourceImage, ext);
+
+      if (sourceImage.startsWith("https://")) {
+        const path = join(tmpdir(), `zhif.${crypto.randomBytes(6).readUIntLE(0, 6).toString(36)}${ext}`);
+        execFileSync(process.execPath, ["-e", sourceImageFetcher(sourceImage, path)])
+        return { name, path };
+      } else {
+        const { sourceFileName } = referencePath.hub.file.opts.parserOpts;
+        return { name, path: join(dirname(sourceFileName), sourceImage) };
+      }
     })();
 
     /*

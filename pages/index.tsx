@@ -11,6 +11,7 @@ console.log(image1);
 export default () => (
   <div>
     <div>
+      <Picture src="https://exposure.imgix.net/production/posts/241311/cover-photo/cover-1499518139.png" alt="Flower" />
       <Picture src="../assets/image.jpg" alt="Flower" />
       <Picture src="../assets/image.png" />
       {/* <SomePicture {...picture1} /> */}
