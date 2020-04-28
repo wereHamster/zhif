@@ -2,7 +2,7 @@ const { join, dirname, basename, extname } = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
 const { performance } = require("perf_hooks");
-const { cpus, tmpdir } = require("os");
+const { cpus } = require("os");
 const { execFileSync } = require("child_process");
 
 /*
@@ -61,7 +61,8 @@ module.exports = createMacro(({ references, babel }) => {
       const name = basename(sourceImage, ext);
 
       if (sourceImage.startsWith("https://")) {
-        const path = join(tmpdir(), `zhif.${crypto.randomBytes(6).readUIntLE(0, 6).toString(36)}${ext}`);
+        mkdirp.sync(cacheDirectory);
+        const path = join(cacheDirectory, `zhif.${name}.${fingerprint(sourceImage)}${ext}`);
         execFileSync(process.execPath, ["-e", sourceImageFetcher(sourceImage, path)])
         return { name, path };
       } else {
