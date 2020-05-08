@@ -63,7 +63,9 @@ module.exports = createMacro(({ references, babel }) => {
       if (sourceImage.startsWith("https://")) {
         mkdirp.sync(cacheDirectory);
         const path = join(cacheDirectory, `zhif.${name}.${fingerprint(sourceImage)}${ext}`);
-        execFileSync(process.execPath, ["-e", sourceImageFetcher(sourceImage, path)])
+        if (!fs.existsSync(path)) {
+          execFileSync(process.execPath, ["-e", sourceImageFetcher(sourceImage, path)]);
+        }
         return { name, path };
       } else {
         const { sourceFileName } = referencePath.hub.file.opts.parserOpts;
