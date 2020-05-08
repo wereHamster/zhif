@@ -119,8 +119,8 @@ module.exports = createMacro(({ references, babel }) => {
      * We include the width of the original image in this set, so that we generate
      * alternative formats (eg. WebP) in the same resolution as the original image.
      */
-    const widths = [400, 1000, 2500, 5000]
-      .filter(x => x < (metadata.width * 2) / 3)
+    const widths = [...take(10, geometricSequence(400, 1.5))]
+      .filter((x) => x < (metadata.width / 1.5))
       .concat([metadata.width]);
 
     const sources = (() => {
@@ -357,3 +357,22 @@ const padLeft = (n, s) =>
   `${Array(Math.max(0, n - s.length))
     .fill(" ")
     .join("")}${s}`;
+
+function* geometricSequence(a, r) {
+  const round = (n) => {
+    const c = Math.pow(10, Math.floor(Math.log10(n)) - 1)
+    return Math.floor(n / c) * c;
+  }
+
+  while (true) {
+    yield a;
+    a = round(a * r);
+  }
+}
+
+function *take(n, iterator) {
+  for (const val of iterator) {
+    if (!(n--)) { return; }
+    yield val;
+  }
+}
