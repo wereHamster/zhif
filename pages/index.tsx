@@ -11,7 +11,7 @@ console.log(image1);
 
 const img = (
   <BlurHash>
-    <Picture id="2" src="../assets/image.jpg" alt="Flower" />
+    <Picture src="../assets/image.jpg" alt="Flower" sizes="360px" />
   </BlurHash>
 );
 
@@ -21,11 +21,82 @@ export default () => (
       style={{
         margin: 20,
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
         gap: 40,
       }}
     >
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/2/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/3/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/4/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/5/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/6/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/7/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/8/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/9/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/10/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/11/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/12/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+
       {Array.from({ length: 40 }).fill(img)}
+
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1001/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1002/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1003/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1004/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1005/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1006/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+       <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1008/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+     <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1009/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1010/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1011/1200/640.jpg" sizes="360px" />
+      </BlurHash>
+      <BlurHash>
+        <Picture src="https://i.picsum.photos/id/1012/1200/640.jpg" sizes="360px" />
+      </BlurHash>
     </div>
     <div>
       <BlurHash>

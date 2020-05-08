@@ -10,10 +10,7 @@ function BlurHash({ children: picture }: Props) {
   const { ["data-blur-hash"]: blurHash } = picture.props;
 
   const [loaded, setLoaded] = React.useState(false);
-  const [pictureRef, inView] = useInView({
-    rootMargin: "30%",
-    triggerOnce: true,
-  });
+  const [pictureRef, inView] = useInView({ triggerOnce: true });
   const blurHashURL = useBlurHash(!loaded && inView ? blurHash : null);
   // console.log({
   //   imageLoaded: loaded,
@@ -58,8 +55,14 @@ function BlurHash({ children: picture }: Props) {
         return React.cloneElement(child, {
           ref: imgRef,
           loading: "lazy",
-          style: { ...styles.img, opacity: loaded ? 1 : 0 },
+          style: {
+            ...styles.img,
+            opacity: loaded ? 1 : 0,
+            filter: inView ? "none" : "blur(3px)",
+          },
         } as any);
+      } else if (!inView && React.isValidElement(child)) {
+        return React.cloneElement(child as any, { sizes: "50px" });
       } else {
         return child;
       }
@@ -73,8 +76,10 @@ const styles = {
   picture: {
     position: "relative",
     display: "block",
+    overflow: "hidden",
   },
   bg: {
+    pointerEvents: "none",
     position: "absolute",
     top: 0,
     left: 0,

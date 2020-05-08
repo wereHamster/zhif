@@ -413,7 +413,7 @@ function* take(n, iterator) {
 }
 
 function imageWidths(width) {
-  return [...take(10, geometricSequence(400, 1.5))]
+  return [100, ...take(10, geometricSequence(400, 1.5))]
     .filter((x) => x < width)
     .concat([width]);
 }

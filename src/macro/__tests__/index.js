@@ -19,8 +19,8 @@ pluginTester({
 
 test("imageWidths", () => {
   expect(imageWidths(100)).toEqual([100]);
-  expect(imageWidths(400)).toEqual([400]);
-  expect(imageWidths(1000)).toEqual([400, 600, 900, 1000]);
-  expect(imageWidths(1500)).toEqual([400, 600, 900, 1300, 1500]);
-  expect(imageWidths(4556)).toEqual([400, 600, 900, 1300, 1900, 2800, 4200, 4556]);
+  expect(imageWidths(400)).toEqual([100, 400]);
+  expect(imageWidths(1000)).toEqual([100, 400, 600, 900, 1000]);
+  expect(imageWidths(1500)).toEqual([100, 400, 600, 900, 1300, 1500]);
+  expect(imageWidths(4556)).toEqual([100, 400, 600, 900, 1300, 1900, 2800, 4200, 4556]);
 });
