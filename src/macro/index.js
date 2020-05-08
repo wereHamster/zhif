@@ -349,7 +349,7 @@ const generateImage = ({ name, image, hash, options = {}, ext }) => {
   queue(async () => {
     const t0 = performance.now();
     const cachePath = join(cacheDirectory, filename);
-    mkdirp.sync(join(outputDirectory, "public", publicPath));
+    await mkdirp(join(outputDirectory, "public", publicPath));
 
     try {
       await fs.promises.stat(join(outputDirectory, "public", path));
@@ -362,7 +362,7 @@ const generateImage = ({ name, image, hash, options = {}, ext }) => {
         );
       } catch (e) {
         await image.toFile(join(outputDirectory, "public", path));
-        mkdirp.sync(cacheDirectory);
+        await mkdirp(cacheDirectory);
         await fs.promises.copyFile(
           join(outputDirectory, "public", path),
           cachePath
