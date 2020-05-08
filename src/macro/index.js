@@ -139,9 +139,7 @@ module.exports = createMacro(({ references, babel }) => {
      * We include the width of the original image in this set, so that we generate
      * alternative formats (eg. WebP) in the same resolution as the original image.
      */
-    const widths = [...take(10, geometricSequence(400, 1.5))]
-      .filter((x) => x < metadata.width / 1.5)
-      .concat([metadata.width]);
+    const widths = imageWidths(metadata.width);
 
     const sources = (() => {
       const variants = [
@@ -413,3 +411,11 @@ function* take(n, iterator) {
     yield val;
   }
 }
+
+function imageWidths(width) {
+  return [...take(10, geometricSequence(400, 1.5))]
+    .filter((x) => x < width)
+    .concat([width]);
+}
+
+module.exports.imageWidths = imageWidths;
