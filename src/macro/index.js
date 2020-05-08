@@ -175,6 +175,12 @@ module.exports = createMacro(({ references, babel }) => {
       const src = attrs.find(isSrcAttr).value.value;
       const otherAttributes = attrs.filter(attr => !isSrcAttr(attr));
 
+      /*
+       * These attributes are passed to the <source> elements.
+       */
+      const sourceAttributes = attrs.filter(attr =>
+        attr.name.type === "JSXIdentifier" && ["sizes"].includes(attr.name.name))
+
       const { value } = toValue(referencePath, src);
 
       referencePath.parentPath.parentPath.replaceWith(
@@ -187,6 +193,7 @@ module.exports = createMacro(({ references, babel }) => {
                 t.jsxOpeningElement(
                   t.jsxIdentifier("source"),
                   [
+                    ...sourceAttributes,
                     t.jsxAttribute(
                       t.jsxIdentifier("srcSet"),
                       t.stringLiteral(source.srcSet)
