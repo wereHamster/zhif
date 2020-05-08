@@ -35,7 +35,7 @@ const cacheDirectory = `${outputDirectory}/node_modules/.cache/images/`;
  * (child_process execFileSync). The code loads the metadata from the image and
  * prints it to stdout, where we can read it from.
  */
-const metadataScrubber = path => `
+const metadataScrubber = (path) => `
 require("sharp")("${path}").metadata().then(metadata => {
   process.stdout.write(JSON.stringify(metadata));
 });
@@ -46,7 +46,7 @@ const { get } = require("https");
 const { createWriteStream } = require("fs");
 
 get("${url}", res => { res.pipe(createWriteStream("${path}")); })
-`
+`;
 
 module.exports = createMacro(({ references, babel }) => {
   const t = babel.types;
@@ -62,9 +62,15 @@ module.exports = createMacro(({ references, babel }) => {
 
       if (sourceImage.startsWith("https://")) {
         mkdirp.sync(cacheDirectory);
-        const path = join(cacheDirectory, `zhif.${name}.${fingerprint(sourceImage)}${ext}`);
+        const path = join(
+          cacheDirectory,
+          `zhif.${name}.${fingerprint(sourceImage)}${ext}`
+        );
         if (!fs.existsSync(path)) {
-          execFileSync(process.execPath, ["-e", sourceImageFetcher(sourceImage, path)]);
+          execFileSync(process.execPath, [
+            "-e",
+            sourceImageFetcher(sourceImage, path),
+          ]);
         }
         return { name, path };
       } else {
@@ -108,8 +114,8 @@ module.exports = createMacro(({ references, babel }) => {
         image: image.clone(),
         hash,
         ext: metadata.hasAlpha ? ".png" : ".jpg",
-        options: {}
-      })
+        options: {},
+      }),
     };
 
     /*
@@ -120,7 +126,7 @@ module.exports = createMacro(({ references, babel }) => {
      * alternative formats (eg. WebP) in the same resolution as the original image.
      */
     const widths = [...take(10, geometricSequence(400, 1.5))]
-      .filter((x) => x < (metadata.width / 1.5))
+      .filter((x) => x < metadata.width / 1.5)
       .concat([metadata.width]);
 
     const sources = (() => {
@@ -128,24 +134,24 @@ module.exports = createMacro(({ references, babel }) => {
         { type: "image/webp", ext: ".webp" },
         metadata.hasAlpha
           ? { type: "image/png", ext: ".png" }
-          : { type: "image/jpeg", ext: ".jpg" }
+          : { type: "image/jpeg", ext: ".jpg" },
       ];
 
       return variants.map(({ type, ext }) => {
-        const files = widths.map(width => ({
+        const files = widths.map((width) => ({
           src: generateImage({
             name: `${name}-${width}w`,
             image: image.clone().resize(width, null),
             hash,
             options: { width },
-            ext
+            ext,
           }),
-          width
+          width,
         }));
 
         return {
-          srcSet: files.map(x => `${x.src} ${x.width}w`).join(", "),
-          type
+          srcSet: files.map((x) => `${x.src} ${x.width}w`).join(", "),
+          type,
         };
       });
     })();
@@ -153,17 +159,17 @@ module.exports = createMacro(({ references, babel }) => {
     const value = {
       metadata: {
         width: metadata.width,
-        height: metadata.height
+        height: metadata.height,
       },
       img,
-      sources
+      sources,
     };
 
     return { sourceImage, value };
   };
 
   if (references.Picture) {
-    references.Picture.forEach(referencePath => {
+    references.Picture.forEach((referencePath) => {
       const attrs = referencePath.parent.attributes;
 
       /*
@@ -173,13 +179,16 @@ module.exports = createMacro(({ references, babel }) => {
       const isSrcAttr = ({ name }) =>
         name.type === "JSXIdentifier" && name.name === "src";
       const src = attrs.find(isSrcAttr).value.value;
-      const otherAttributes = attrs.filter(attr => !isSrcAttr(attr));
+      const otherAttributes = attrs.filter((attr) => !isSrcAttr(attr));
 
       /*
        * These attributes are passed to the <source> elements.
        */
-      const sourceAttributes = attrs.filter(attr =>
-        attr.name.type === "JSXIdentifier" && ["sizes"].includes(attr.name.name))
+      const sourceAttributes = attrs.filter(
+        (attr) =>
+          attr.name.type === "JSXIdentifier" &&
+          ["sizes"].includes(attr.name.name)
+      );
 
       const { value } = toValue(referencePath, src);
 
@@ -188,7 +197,7 @@ module.exports = createMacro(({ references, babel }) => {
           t.jsxOpeningElement(t.jsxIdentifier("picture"), []),
           t.jsxClosingElement(t.jsxIdentifier("picture")),
           [
-            ...value.sources.map(source => {
+            ...value.sources.map((source) => {
               return t.jsxElement(
                 t.jsxOpeningElement(
                   t.jsxIdentifier("source"),
@@ -201,7 +210,7 @@ module.exports = createMacro(({ references, babel }) => {
                     t.jsxAttribute(
                       t.jsxIdentifier("type"),
                       t.stringLiteral(source.type)
-                    )
+                    ),
                   ],
                   true
                 ),
@@ -230,14 +239,14 @@ module.exports = createMacro(({ references, babel }) => {
                       t.numericLiteral(value.metadata.height)
                     )
                   ),
-                  ...otherAttributes
+                  ...otherAttributes,
                 ],
                 true
               ),
               null,
               [],
               true
-            )
+            ),
           ],
           false
         )
@@ -246,7 +255,7 @@ module.exports = createMacro(({ references, babel }) => {
   }
 
   if (references.importImage) {
-    references.importImage.forEach(referencePath => {
+    references.importImage.forEach((referencePath) => {
       const { sourceImage, value } = toValue(
         referencePath,
         referencePath.parent.arguments[0].value
@@ -270,7 +279,7 @@ const fingerprint = (...buffers) => {
     hash.update(buffer);
   }
   const ret = hash.digest();
-  const alnum = x => {
+  const alnum = (x) => {
     if (x < 26) return x + 65;
     if (x < 52) return x - 26 + 97;
     if (x < 62) return x - 52 + 48;
@@ -304,7 +313,7 @@ const queue = (() => {
     }
   };
 
-  return t => {
+  return (t) => {
     q.push(t);
     go();
   };
@@ -329,11 +338,17 @@ const generateImage = ({ name, image, hash, options = {}, ext }) => {
     } catch (e) {
       try {
         await fs.promises.stat(cachePath);
-        await fs.promises.copyFile(cachePath, join(outputDirectory, "public", path));
+        await fs.promises.copyFile(
+          cachePath,
+          join(outputDirectory, "public", path)
+        );
       } catch (e) {
         await image.toFile(join(outputDirectory, "public", path));
         mkdirp.sync(cacheDirectory);
-        await fs.promises.copyFile(join(outputDirectory, "public", path), cachePath);
+        await fs.promises.copyFile(
+          join(outputDirectory, "public", path),
+          cachePath
+        );
       }
     }
 
@@ -345,7 +360,7 @@ const generateImage = ({ name, image, hash, options = {}, ext }) => {
   return path;
 };
 
-const formatDuration = td => {
+const formatDuration = (td) => {
   if (td >= 1000) {
     return `${Math.round(td / 100) / 10}s`;
   } else {
@@ -360,9 +375,9 @@ const padLeft = (n, s) =>
 
 function* geometricSequence(a, r) {
   const round = (n) => {
-    const c = Math.pow(10, Math.floor(Math.log10(n)) - 1)
+    const c = Math.pow(10, Math.floor(Math.log10(n)) - 1);
     return Math.floor(n / c) * c;
-  }
+  };
 
   while (true) {
     yield a;
@@ -370,9 +385,11 @@ function* geometricSequence(a, r) {
   }
 }
 
-function *take(n, iterator) {
+function* take(n, iterator) {
   for (const val of iterator) {
-    if (!(n--)) { return; }
+    if (!n--) {
+      return;
+    }
     yield val;
   }
 }
