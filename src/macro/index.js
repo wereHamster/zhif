@@ -48,6 +48,20 @@ const { createWriteStream } = require("fs");
 get("${url}", res => { res.pipe(createWriteStream("${path}")); })
 `;
 
+const toBlurHash = (path) => {
+  const script = `
+const { encode } = require("blurhash");
+require("sharp")("${path}")
+  .resize({ width: 200 })
+  .ensureAlpha()
+  .raw()
+  .toBuffer({ resolveWithObject: true })
+  .then(({ data, info }) => { process.stdout.write(encode(data, info.width, info.height, 4, 3)); });
+`;
+
+  return execFileSync(process.execPath, ["-e", script], { encoding: "utf8" });
+};
+
 module.exports = createMacro(({ references, babel }) => {
   const t = babel.types;
 
@@ -157,6 +171,7 @@ module.exports = createMacro(({ references, babel }) => {
     })();
 
     const value = {
+      blurHash: toBlurHash(path),
       metadata: {
         width: metadata.width,
         height: metadata.height,
@@ -194,7 +209,12 @@ module.exports = createMacro(({ references, babel }) => {
 
       referencePath.parentPath.parentPath.replaceWith(
         t.jsxElement(
-          t.jsxOpeningElement(t.jsxIdentifier("picture"), []),
+          t.jsxOpeningElement(t.jsxIdentifier("picture"), [
+            t.jsxAttribute(
+              t.jsxIdentifier("data-blur-hash"),
+              t.stringLiteral(value.blurHash)
+            ),
+          ]),
           t.jsxClosingElement(t.jsxIdentifier("picture")),
           [
             ...value.sources.map((source) => {

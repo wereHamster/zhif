@@ -2,6 +2,7 @@ const {} = (() => {
   require("null-loader!!../../assets/jpeg.jpg");
 
   return {
+    blurHash: "L0L;me_3fQ_3_3j[fQj[fQfQfQfQ",
     metadata: {
       width: 1,
       height: 1,
