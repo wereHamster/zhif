@@ -23,6 +23,12 @@ const outputDirectory = pkgDir.sync();
 const cacheDirectory = `${outputDirectory}/node_modules/.cache/images/`;
 
 /*
+ * .init section
+ */
+
+mkdirp.sync(cacheDirectory);
+
+/*
  * This small inline module exists for the sole reason so that we can get the image
  * metadata inside synchronous code.
  *
@@ -75,7 +81,6 @@ module.exports = createMacro(({ references, babel }) => {
       const name = basename(sourceImage, ext);
 
       if (sourceImage.startsWith("https://")) {
-        mkdirp.sync(cacheDirectory);
         const path = join(
           cacheDirectory,
           `zhif.${name}.${fingerprint(sourceImage)}${ext}`
@@ -362,7 +367,6 @@ const generateImage = ({ name, image, hash, options = {}, ext }) => {
         );
       } catch (e) {
         await image.toFile(join(outputDirectory, "public", path));
-        await mkdirp(cacheDirectory);
         await fs.promises.copyFile(
           join(outputDirectory, "public", path),
           cachePath
