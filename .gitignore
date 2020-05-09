@@ -2,5 +2,5 @@ node_modules
 .next
 public/images/
 
-packages/macro/index.js
-packages/macro/index.d.ts
+packages/components/*
+packages/macro/*

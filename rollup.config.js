@@ -8,19 +8,19 @@ export default [
     input: "src/macro/index.js",
     output: {
       file: "packages/macro/index.js",
-      format: "commonjs"
+      format: "commonjs",
     },
     plugins: [
       resolve(),
       commonjs(),
       terser(),
       copy({
-        targets: [{ src: "src/macro/index.d.ts", dest: "packages/macro/" }]
-      })
+        targets: [{ src: "src/macro/index.d.ts", dest: "packages/macro/" }],
+      }),
     ],
     external: [
       ...require("builtin-modules"),
-      ...Object.keys(require("./packages/macro/package.json").peerDependencies)
-    ]
-  }
+      ...Object.keys(require("./packages/macro/package.json").peerDependencies),
+    ],
+  },
 ];

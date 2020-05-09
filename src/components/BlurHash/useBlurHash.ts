@@ -38,7 +38,7 @@ export function useBlurHash(
       }
     });
 
-    return function cleanupBlurhash() {
+    return () => {
       isCancelled = true;
       setUrl((oldUrl) => {
         if (oldUrl) {

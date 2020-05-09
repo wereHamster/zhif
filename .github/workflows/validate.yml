@@ -33,6 +33,9 @@ jobs:
       - name: TypeScript
         run: yarn tsc --build
 
+      - name: TypeScript
+        run: yarn tsc --build src/components/tsconfig.json
+
   jest:
     runs-on: ubuntu-latest
 

@@ -1,0 +1,9 @@
+{
+  "name": "@zhif/components",
+  "version": "0.0.0",
+  "peerDependencies": {
+    "blurhash": "^1.1.3",
+    "react": "^7.6.2",
+    "react-intersection-observer": "^8.26.2"
+  }
+}
