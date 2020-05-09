@@ -4,6 +4,8 @@ import { importImage, Picture } from "../src/macro";
 
 const image1 = importImage("../assets/image.jpg");
 console.log(image1);
+const image2 = importImage("https://i.picsum.photos/id/1/1200/640.jpg");
+console.log(image2)
 
 // const picture3 = picture("../image.jpg", {
 //   sizes: "(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"

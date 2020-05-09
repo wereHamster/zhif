@@ -246,7 +246,6 @@ module.exports = createMacro(({ references, babel }) => {
 
       const replacement = parse(`
       (() => {
-        require("null-loader!!${sourceImage}")
         return ${JSON.stringify(value)}
       })()
     `);
