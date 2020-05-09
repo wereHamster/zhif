@@ -279,6 +279,19 @@ const queue = (() => {
   const q = [];
   let numRunning = 0;
 
+  /*
+   * Hook into process.exit() so we can block until all images
+   * have been processed.
+   */
+  const { exit } = process;
+  process.exit = function exitOnIdle(exitCode) {
+    if (q.length === 0) {
+      exit(exitCode);
+    } else {
+      setTimeout(() => exitOnIdle(exitCode), 100);
+    }
+  };
+
   const go = async () => {
     if (numRunning >= maxRunning) {
       return;
@@ -385,14 +398,14 @@ function imageWidths(width) {
 module.exports.imageWidths = imageWidths;
 
 function fetchSourceImage(url, path) {
-    if (!fs.existsSync(path)) {
-      const script = `
+  if (!fs.existsSync(path)) {
+    const script = `
   const { get } = require("https");
   const { createWriteStream } = require("fs");
   get("${url}", res => { res.pipe(createWriteStream("${path}")); })
       `;
-      execFileSync(process.execPath, ["-e", script]);
-    }
+    execFileSync(process.execPath, ["-e", script]);
+  }
 }
 
 const loadMetadata = (() => {
