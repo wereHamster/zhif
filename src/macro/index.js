@@ -20,7 +20,7 @@ const mkdirp = require("mkdirp");
 
 const publicPath = "/images";
 const outputDirectory = pkgDir.sync();
-const cacheDirectory = `${outputDirectory}/node_modules/.cache/images/`;
+const cacheDirectory = `${outputDirectory}/node_modules/.cache/zhif/`;
 
 /*
  * .init section
@@ -28,45 +28,12 @@ const cacheDirectory = `${outputDirectory}/node_modules/.cache/images/`;
 
 mkdirp.sync(cacheDirectory);
 
-/*
- * This small inline module exists for the sole reason so that we can get the image
- * metadata inside synchronous code.
- *
- * The code running in a babel macro must be synchronous (no async code). But
- * the sharp function to get the image metadata is async. There is a 'deasync'
- * node module which one can use to convert async code to sync code, but its
- * use is discouraged.
- *
- * We solve this problem by running the following code in a synchronous subprocess
- * (child_process execFileSync). The code loads the metadata from the image and
- * prints it to stdout, where we can read it from.
- */
-const metadataScrubber = (path) => `
-require("sharp")("${path}").metadata().then(metadata => {
-  process.stdout.write(JSON.stringify(metadata));
-});
-`;
-
 const sourceImageFetcher = (url, path) => `
 const { get } = require("https");
 const { createWriteStream } = require("fs");
 
 get("${url}", res => { res.pipe(createWriteStream("${path}")); })
 `;
-
-const toBlurHash = (path) => {
-  const script = `
-const { encode } = require("blurhash");
-require("sharp")("${path}")
-  .resize({ width: 200 })
-  .ensureAlpha()
-  .raw()
-  .toBuffer({ resolveWithObject: true })
-  .then(({ data, info }) => { process.stdout.write(encode(data, info.width, info.height, 4, 3)); });
-`;
-
-  return execFileSync(process.execPath, ["-e", script], { encoding: "utf8" });
-};
 
 module.exports = createMacro(({ references, babel }) => {
   const t = babel.types;
@@ -83,14 +50,9 @@ module.exports = createMacro(({ references, babel }) => {
       if (sourceImage.startsWith("https://")) {
         const path = join(
           cacheDirectory,
-          `zhif.${name}.${fingerprint(sourceImage)}${ext}`
+          `${fingerprint(sourceImage, "source")}`
         );
-        if (!fs.existsSync(path)) {
-          execFileSync(process.execPath, [
-            "-e",
-            sourceImageFetcher(sourceImage, path),
-          ]);
-        }
+        fetchSourceImage(sourceImage, path);
         return { name, path };
       } else {
         const { sourceFileName } = referencePath.hub.file.opts.parserOpts;
@@ -111,11 +73,9 @@ module.exports = createMacro(({ references, babel }) => {
     const image = sharp(path);
 
     /*
-     * Synchronously get the metadata. See the './metadata.js' file for details.
+     * Synchronously get the metadata.
      */
-    const metadata = JSON.parse(
-      execFileSync(process.execPath, ["-e", metadataScrubber(path)])
-    );
+    const metadata = loadMetadata(path, hash);
 
     /*
      * The fallback for browsers which don't support the <picture> element.
@@ -174,7 +134,7 @@ module.exports = createMacro(({ references, babel }) => {
     })();
 
     const value = {
-      blurHash: toBlurHash(path),
+      blurHash: metadata.blurHash,
       metadata: {
         width: metadata.width,
         height: metadata.height,
@@ -423,3 +383,69 @@ function imageWidths(width) {
 }
 
 module.exports.imageWidths = imageWidths;
+
+function fetchSourceImage(url, path) {
+    if (!fs.existsSync(path)) {
+      const script = `
+  const { get } = require("https");
+  const { createWriteStream } = require("fs");
+  get("${url}", res => { res.pipe(createWriteStream("${path}")); })
+      `;
+      execFileSync(process.execPath, ["-e", script]);
+    }
+}
+
+const loadMetadata = (() => {
+  const inMemoryCache = new Map();
+
+  return (path, hash) => {
+    const key = `${fingerprint(hash, "metadata")}`;
+
+    const fromCache = inMemoryCache.get(key);
+    if (fromCache) {
+      return fromCache;
+    }
+
+    const cachePath = join(cacheDirectory, key);
+    try {
+      const metadata = JSON.parse(fs.readFileSync(cachePath, "utf8"));
+      inMemoryCache.set(key, metadata);
+      return metadata;
+    } catch (e) {
+      /*
+       * This small inline module exists for the sole reason so that we can get the image
+       * metadata inside synchronous code.
+       *
+       * The code running in a babel macro must be synchronous (no async code). But
+       * the sharp function to get the image metadata is async. There is a 'deasync'
+       * node module which one can use to convert async code to sync code, but its
+       * use is discouraged.
+       *
+       * We solve this problem by running the following code in a synchronous subprocess
+       * (child_process execFileSync). The code loads the metadata from the image and
+       * prints it to stdout, where we can read it from.
+       */
+      const script = `
+const { encode } = require("blurhash");
+const source = require("sharp")("${path}");
+
+Promise.all([
+  source.metadata(),
+  source.resize({ width: 200 }).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+]).then(([metadata, { data, info }]) => {
+  process.stdout.write(JSON.stringify({
+    ...metadata,
+    blurHash: encode(data, info.width, info.height, 4, 3),
+  }));
+})
+`;
+
+      const metadata = JSON.parse(
+        execFileSync(process.execPath, ["-e", script])
+      );
+      inMemoryCache.set(key, metadata);
+      fs.promises.writeFile(cachePath, JSON.stringify(metadata));
+      return metadata;
+    }
+  };
+})();
