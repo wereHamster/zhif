@@ -6,6 +6,7 @@ interface Metadata {
 }
 
 export interface Image {
+  blurHash: string;
   metadata: Metadata;
   img: { src: string };
   sources: Array<{ srcSet: string; type: string }>;
