@@ -8,7 +8,7 @@ const { execFileSync } = require("child_process");
 /*
  * Third-party dependencies
  */
-const { parse } = require("@babel/parser");
+const { parseExpression } = require("@babel/parser");
 const sharp = require("sharp");
 const { createMacro } = require("babel-plugin-macros");
 const pkgDir = require("pkg-dir");
@@ -244,13 +244,8 @@ module.exports = createMacro(({ references, babel }) => {
         referencePath.parent.arguments[0].value
       );
 
-      const replacement = parse(`
-      (() => {
-        return ${JSON.stringify(value)}
-      })()
-    `);
-
-      referencePath.parentPath.replaceWith(replacement.program.body[0]);
+      const replacement = parseExpression(`${JSON.stringify(value)}`);
+      referencePath.parentPath.replaceWith(replacement);
     });
   }
 });
