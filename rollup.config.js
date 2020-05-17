@@ -3,6 +3,13 @@ import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
 import copy from "rollup-plugin-copy";
 
+function packageExternal(path) {
+  return [
+    ...Object.keys(require(path).dependencies || {}),
+    ...Object.keys(require(path).peerDependencies || {}),
+  ];
+}
+
 export default [
   {
     input: "src/macro/index.js",
@@ -20,7 +27,19 @@ export default [
     ],
     external: [
       ...require("builtin-modules"),
-      ...Object.keys(require("./packages/macro/package.json").peerDependencies),
+      ...packageExternal("./packages/macro/package.json"),
+    ],
+  },
+  {
+    input: "packages/components/index.js",
+    output: {
+      file: "packages/components/index.cjs",
+      format: "commonjs",
+    },
+    plugins: [resolve(), commonjs()],
+    external: [
+      ...require("builtin-modules"),
+      ...packageExternal("./packages/components/package.json"),
     ],
   },
 ];
