@@ -11,7 +11,7 @@
     "builtin-modules": "^3.1.0",
     "jest": "^25.4.0",
     "mkdirp": "^1.0.4",
-    "next": "^9.4.0",
+    "next": "^9.4.1",
     "null-loader": "^4.0.0",
     "pkg-dir": "^4.2.0",
     "react": "^16.13.1",
