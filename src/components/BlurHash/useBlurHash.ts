@@ -1,4 +1,4 @@
-import { decode } from "blurhash";
+import { decode } from "./vendor";
 import React from "react";
 
 // modified from https://gist.github.com/WorldMaker/a3cbe0059acd827edee568198376b95a
