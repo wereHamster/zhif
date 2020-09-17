@@ -3,7 +3,7 @@
   "dependencies": {
     "@babel/core": "^7.11.1",
     "@babel/plugin-syntax-jsx": "^7.10.1",
-    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@types/react": "^16.9.46",
     "babel-plugin-macros": "^2.8.0",
