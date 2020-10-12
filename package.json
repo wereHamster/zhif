@@ -13,7 +13,7 @@
     "jest": "^26.5.3",
     "mkdirp": "^1.0.4",
     "next": "^9.5.5",
-    "null-loader": "^4.0.0",
+    "null-loader": "^4.0.1",
     "pkg-dir": "^4.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
