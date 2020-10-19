@@ -14,7 +14,7 @@
     "mkdirp": "^1.0.4",
     "next": "^9.5.5",
     "null-loader": "^4.0.1",
-    "pkg-dir": "^4.2.0",
+    "pkg-dir": "^5.0.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-intersection-observer": "^8.29.0",
