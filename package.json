@@ -4,7 +4,7 @@
     "@babel/core": "^7.12.3",
     "@babel/plugin-syntax-jsx": "^7.12.1",
     "@rollup/plugin-commonjs": "^16.0.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-node-resolve": "^10.0.0",
     "@types/react": "^16.9.52",
     "babel-plugin-macros": "^2.8.0",
     "babel-plugin-tester": "^10.0.0",
