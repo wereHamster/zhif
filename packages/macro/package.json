@@ -2,8 +2,8 @@
   "name": "@zhif/macro",
   "version": "0.0.0",
   "peerDependencies": {
-    "@babel/parser": "^7.6.2",
-    "babel-plugin-macros": "^2.8.0",
-    "sharp": "^0.23.1"
+    "@babel/parser": "^7.0.0",
+    "babel-plugin-macros": "^3.0.0",
+    "sharp": "*"
   }
 }
