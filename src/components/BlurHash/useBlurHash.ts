@@ -28,7 +28,7 @@ export function useBlurHash(
     imageData.data.set(pixels);
     context!.putImageData(imageData, 0, 0);
     canvas.toBlob((blob) => {
-      if (!isCancelled) {
+      if (blob && !isCancelled) {
         setUrl((oldUrl) => {
           if (oldUrl) {
             URL.revokeObjectURL(oldUrl);
