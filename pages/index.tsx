@@ -4,7 +4,7 @@ import { importImage, Picture } from "../src/macro";
 
 const image1 = importImage("../assets/image.jpg");
 console.log(image1);
-const image2 = importImage("https://caurea.org/zhif.jpg");
+const image2 = importImage("https://storage.googleapis.com/caurea.org/zhif.jpg");
 console.log(image2)
 
 // const picture3 = picture("../image.jpg", {
@@ -28,83 +28,83 @@ export default () => (
       }}
     >
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
 
       {Array.from({ length: 40 }).fill(img)}
 
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
        <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
      <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
       <BlurHash>
-        <Picture src="https://caurea.org/zhif.jpg" sizes="360px" />
+        <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
     </div>
     <div>
       <BlurHash>
         <Picture
           id="1"
-          src="https://caurea.org/zhif.jpg"
+          src="https://storage.googleapis.com/caurea.org/zhif.jpg"
           alt="Flower"
         />
       </BlurHash>
