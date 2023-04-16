@@ -64,7 +64,7 @@ export default () => (
         <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />
       </BlurHash>
 
-      {Array.from({ length: 40 }).fill(img)}
+      <>{Array.from({ length: 40 }).fill(img)}</>
 
       <BlurHash>
         <Picture src="https://storage.googleapis.com/caurea.org/zhif.jpg" sizes="360px" />

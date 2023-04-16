@@ -52,7 +52,7 @@ function BlurHash({ children: picture }: Props) {
     ...React.Children.toArray(picture.props.children).map((child) => {
       if (React.isValidElement(child)) {
         if (child.type === "img" || child.props.originalType === "img") {
-          return React.cloneElement(child, {
+          return React.cloneElement(child as React.ReactElement<React.ComponentProps<"img">>, {
             ref: imgRef,
             style: {
               ...styles.img,
