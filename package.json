@@ -9,7 +9,7 @@
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-tester": "^10.0.0",
     "blurhash": "^2.0.5",
-    "builtin-modules": "^3.2.0",
+    "builtin-modules": "^3.3.0",
     "jest": "^27.2.5",
     "mkdirp": "^1.0.4",
     "next": "^13.3.0",
